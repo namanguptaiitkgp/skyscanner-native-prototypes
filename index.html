@@ -226,9 +226,8 @@
     <div class="sky-tab active" data-p="p1"><span class="tab-num">1</span> Agent Trust</div>
     <div class="sky-tab" data-p="p2"><span class="tab-num">2</span> Bag Pricing</div>
     <div class="sky-tab" data-p="p3"><span class="tab-num">3</span> Stale Fares</div>
-    <div class="sky-tab" data-p="p4"><span class="tab-num">4</span> Book Capture</div>
-    <div class="sky-tab" data-p="p5"><span class="tab-num">5</span> Return Loop</div>
-    <div class="sky-tab" data-p="p6"><span class="tab-num">6</span> Price Alerts</div>
+    <div class="sky-tab" data-p="p4"><span class="tab-num">4</span> Return Loop</div>
+    <div class="sky-tab" data-p="p5"><span class="tab-num">5</span> Price Alerts</div>
   </div>
 
   <!-- ========== P1: AGENT TRUST ========== -->
@@ -605,64 +604,8 @@
     <div class="kis-check"><span>✅</span><div><strong>Keep It Simple</strong>Flag icon on the existing row + 3-option bottom sheet. No forms, no text input, no account needed. System auto-suppresses after threshold, auto-reinstates after re-verification.</div></div>
   </div>
 
-  <!-- ========== P4: BOOKING CAPTURE ========== -->
+  <!-- ========== P4: RETURN LOOP ========== -->
   <div class="panel" id="p4">
-    <div class="sky-header">
-      <div class="sky-logo">✈ Skyscanner</div>
-      <div class="route">Booking — Air India AI2332 · DEL → BKK</div>
-      <div class="date-nav">15 Sep 2026</div>
-    </div>
-
-    <div class="problem-banner">
-      <div class="pb-tag">Problem</div>
-      <h3>Users discover the price on Skyscanner, then book directly with the airline</h3>
-      <p>Skyscanner enables the conversion but captures zero revenue. No tangible reason to book through the platform vs. going direct.</p>
-    </div>
-
-    <div class="solution-banner">
-      <div class="sb-tag">Solution</div>
-      <h3>Pre-handoff value card + Price Lock</h3>
-      <p>Show the explicit saving vs. airline direct, plus booking perks (free cancellation, price-drop refund). Even when transparent about a higher price, the trust builds long-term loyalty. Price Lock captures users who aren't ready to book yet.</p>
-      <div class="meta-tags">
-        <span class="meta-tag mt-med">Medium effort</span>
-        <span class="meta-tag mt-impact">Critical — addresses revenue leakage</span>
-      </div>
-    </div>
-
-    <div class="value-card-sky">
-      <h4>You're saving £1 by booking through Trip.com on Skyscanner</h4>
-      <div class="price-compare">
-        <div class="pc-winner">
-          <div class="pc-label">Via Skyscanner</div>
-          <div class="pc-price">£123</div>
-          <div style="font-size:11px; color:var(--sky-green); font-weight:600;">Best price</div>
-        </div>
-        <div class="pc-loser">
-          <div class="pc-label">Air India direct</div>
-          <div class="pc-price">£124</div>
-        </div>
-      </div>
-      <div class="value-item-sky"><span class="vi-check">✓</span> Free cancellation within 24 hours</div>
-      <div class="value-item-sky"><span class="vi-check">✓</span> Price-drop refund if fare decreases before departure</div>
-      <div class="value-item-sky"><span class="vi-check">✓</span> Trip tracked in your Skyscanner itinerary</div>
-      <div class="value-item-sky"><span class="vi-check">✓</span> 24/7 live chat and telephone support</div>
-    </div>
-
-    <div style="display:flex; gap:10px; margin-bottom:12px;">
-      <button class="select-btn" style="flex:1; padding:14px;">Continue to Trip.com — £123</button>
-      <button style="padding:14px 20px; background:#fff; color:var(--sky-text2); border:1px solid var(--sky-border); border-radius:8px; font-size:13px; cursor:pointer; white-space:nowrap;">Go to airline ↗</button>
-    </div>
-
-    <div style="text-align:center; background:#fff; border:1px solid var(--sky-border); border-radius:10px; padding:14px; font-size:13px; color:var(--sky-text);">
-      🔒 <strong>Lock this price for 48 hours</strong> — £3.99 (refunded on booking)
-      <div style="font-size:11px; color:var(--sky-text3); margin-top:4px;">Not ready? Reserve now, decide later.</div>
-    </div>
-
-    <div class="kis-check"><span>✅</span><div><strong>Keep It Simple</strong>One interstitial between "select fare" and "redirect." No extra steps — the user was already leaving. Shows a reason to stay, or builds trust for next time by being transparent.</div></div>
-  </div>
-
-  <!-- ========== P5: RETURN LOOP ========== -->
-  <div class="panel" id="p5">
     <div class="problem-banner">
       <div class="pb-tag">Problem</div>
       <h3>No reason to open Skyscanner again until the next trip — months later</h3>
@@ -730,8 +673,8 @@
     <div class="kis-check"><span>✅</span><div><strong>Keep It Simple</strong>Trip Companion auto-populates — zero setup. Passive watching runs in background with no opt-in. User does nothing new; the product just becomes more useful after booking.</div></div>
   </div>
 
-  <!-- ========== P6: PRICE ALERTS ========== -->
-  <div class="panel" id="p6">
+  <!-- ========== P5: PRICE ALERTS ========== -->
+  <div class="panel" id="p5">
     <div class="sky-header">
       <div class="sky-logo">✈ Skyscanner</div>
       <div class="route">New Delhi (DEL) – Bangkok (BKK) · 1 adult, Economy</div>
