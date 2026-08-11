@@ -219,6 +219,50 @@
   .mt-med { background:#fff7ed; color:#c2410c; }
   .mt-high { background:#fef2f2; color:var(--sky-red); }
   .mt-impact { background:#eff6ff; color:var(--sky-blue); }
+
+  /* Social Proof - P6 */
+  .sp-content-grid { display:grid; grid-template-columns:1fr 340px; gap:0; }
+  .sp-main-col { background:#fff; border:1px solid var(--sky-border); border-radius:0 0 0 12px; }
+  .sp-side-col { background:#fff; border-bottom:1px solid var(--sky-border); border-right:1px solid var(--sky-border); border-radius:0 0 12px 0; }
+  .sp-booking-header { background:var(--sky-navy); padding:16px 20px; color:#fff; border-radius:12px 12px 0 0; }
+  .sp-booking-header h2 { font-size:22px; font-weight:800; }
+  .sp-booking-header .sub { font-size:12px; color:rgba(255,255,255,0.6); margin-top:2px; }
+  .sp-section-title { padding:16px 20px 0; font-size:16px; font-weight:700; }
+  .sp-section-sub { padding:4px 20px 12px; font-size:12px; color:var(--sky-text2); }
+  .sp-bag-pills { padding:10px 20px; display:flex; align-items:center; gap:8px; font-size:12px; color:var(--sky-text2); border-bottom:1px solid var(--sky-border); border-top:1px solid var(--sky-border); }
+  .sp-bag-pill { padding:5px 12px; border:1px solid var(--sky-border); border-radius:16px; font-size:11px; font-weight:500; }
+  .sp-provider { padding:16px 20px; border-bottom:1px solid #f0f0f5; }
+  .sp-provider:last-child { border-bottom:none; }
+  .sp-prov-row { display:flex; justify-content:space-between; align-items:flex-start; }
+  .sp-prov-name { font-size:15px; font-weight:700; }
+  .sp-prov-top { display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap; }
+  .sp-rec-badge { display:inline-flex; align-items:center; gap:3px; background:#edfcf2; color:var(--sky-green); font-size:10px; font-weight:600; padding:3px 8px; border-radius:5px; }
+  .sp-prov-meta { font-size:12px; color:var(--sky-text2); margin-bottom:4px; display:flex; align-items:center; gap:4px; }
+  .sp-prov-meta .star { color:var(--sky-orange); }
+  .sp-prov-meta .rating-num { font-weight:700; color:var(--sky-text); }
+  .sp-features { font-size:11px; color:var(--sky-text2); margin-bottom:4px; }
+  .sp-features span { margin-right:12px; }
+  .social-proof-line { display:inline-flex; align-items:center; gap:6px; font-size:11px; color:var(--sky-blue); font-weight:500; margin-top:6px; padding:5px 10px; background:#f0f7ff; border-radius:6px; border:1px solid #dbeafe; }
+  .social-proof-line .sp-count { font-weight:700; }
+  .sp-prov-right { text-align:right; min-width:130px; }
+  .sp-prov-price { font-size:22px; font-weight:800; }
+  .sp-go-btn { display:flex; align-items:center; gap:6px; background:var(--sky-navy); color:#fff; border:none; border-radius:8px; padding:10px 20px; font-size:13px; font-weight:600; cursor:pointer; margin-top:6px; }
+  .sp-fd { padding:16px 20px; }
+  .sp-fd-title { font-size:15px; font-weight:700; margin-bottom:12px; }
+  .sp-fd-card { border:1px solid var(--sky-border); border-radius:10px; padding:14px; }
+  .sp-fd-airline { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .sp-fd-logo { width:32px; height:32px; background:#d42027; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; }
+  .sp-fd-route { padding-left:16px; position:relative; }
+  .sp-fd-route-line { position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:var(--sky-border); }
+  .sp-fd-stop { position:relative; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .sp-fd-dot { width:10px; height:10px; border-radius:50%; border:2px solid var(--sky-border); background:#fff; position:absolute; left:-16px; z-index:1; }
+  .sp-fd-time { font-size:16px; font-weight:700; }
+  .sp-fd-airport { font-size:12px; color:var(--sky-text2); }
+  .sp-annotation { background:#fff; border:1px solid var(--sky-border); border-radius:10px; padding:14px 18px; margin-top:16px; }
+  .sp-annotation h4 { font-size:13px; font-weight:700; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+  .sp-annotation p { font-size:12px; color:var(--sky-text2); line-height:1.5; margin-bottom:6px; }
+  .sp-rule { display:flex; align-items:flex-start; gap:6px; padding:6px 10px; background:#f8f9fa; border-radius:6px; margin-top:8px; font-size:11px; color:var(--sky-text2); line-height:1.5; }
+  @media (max-width:860px) { .sp-content-grid { grid-template-columns:1fr; } }
 </style>
 
 <div>
@@ -228,6 +272,7 @@
     <div class="sky-tab" data-p="p3"><span class="tab-num">3</span> Stale Fares</div>
     <div class="sky-tab" data-p="p4"><span class="tab-num">4</span> Return Loop</div>
     <div class="sky-tab" data-p="p5"><span class="tab-num">5</span> Price Alerts</div>
+    <div class="sky-tab" data-p="p6"><span class="tab-num">6</span> Social Proof</div>
   </div>
 
   <!-- ========== P1: AGENT TRUST ========== -->
@@ -765,6 +810,165 @@
     </div>
 
     <div class="kis-check"><span>✅</span><div><strong>Keep It Simple</strong>Alert setup = one field + one button. Notification controls = 3 toggles with sensible defaults. Re-verification is backend-only — user never sees it. The entire fix adds zero new screens.</div></div>
+  </div>
+
+  <!-- ========== P6: SOCIAL PROOF ========== -->
+  <div class="panel" id="p6">
+    <div class="problem-banner">
+      <div class="pb-tag">Problem</div>
+      <h3>"Am I the only one trusting this agent?" — no social validation on booking options</h3>
+      <p>Users see unfamiliar agent names with ratings but no sense of actual booking volume. Star ratings can be gamed; real booking activity cannot.</p>
+    </div>
+
+    <div class="solution-banner">
+      <div class="sb-tag">Solution</div>
+      <h3>Social proof line: "142 travellers booked via Trip.com in the last 7 days"</h3>
+      <p>One line of text per provider showing recent booking volume on this route. Suppressed below ~10 bookings — absence speaks for itself. Recency doubles as a freshness signal.</p>
+      <div class="meta-tags">
+        <span class="meta-tag mt-low">Low effort</span>
+        <span class="meta-tag mt-impact">High impact — hardest trust signal to fake</span>
+      </div>
+    </div>
+
+    <div class="sp-booking-header">
+      <div style="font-size:12px; color:rgba(255,255,255,0.6); margin-bottom:6px;">← Back to results</div>
+      <h2>Bangkok</h2>
+      <div class="sub">1 traveller · One way · Economy class</div>
+    </div>
+
+    <div class="sp-content-grid">
+      <div class="sp-main-col">
+        <div class="sp-section-title">Book your ticket</div>
+        <div class="sp-section-sub">Prices in GBP</div>
+        <div class="sp-bag-pills">
+          <span>Must include</span>
+          <span class="sp-bag-pill">🧳 Cabin bag</span>
+          <span class="sp-bag-pill">🧳 Checked bag</span>
+        </div>
+
+        <!-- Trip.com -->
+        <div class="sp-provider">
+          <div class="sp-prov-row">
+            <div>
+              <div class="sp-prov-top">
+                <span class="sp-prov-name">Trip.com</span>
+                <span class="sp-rec-badge">✓ Recommended provider</span>
+              </div>
+              <div class="sp-prov-meta"><span class="star">★</span> <span class="rating-num">4.8</span>/5 · 24,493 reviews</div>
+              <div class="sp-features"><span>✓ 24/7 support</span><span>✓ Change booking</span></div>
+              <div class="social-proof-line">👥 <span><span class="sp-count">142</span> travellers booked DEL → BKK via Trip.com in the last 7 days</span></div>
+            </div>
+            <div class="sp-prov-right">
+              <div class="sp-prov-price">£123</div>
+              <button class="sp-go-btn">Go to site →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking.com -->
+        <div class="sp-provider">
+          <div class="sp-prov-row">
+            <div>
+              <div class="sp-prov-top">
+                <span class="sp-prov-name">Booking.com</span>
+                <span class="sp-rec-badge">✓ Recommended provider</span>
+              </div>
+              <div class="sp-prov-meta"><span class="star">★</span> <span class="rating-num">4.9</span>/5 · 12,430 reviews</div>
+              <div class="sp-features"><span>✓ 24/7 support</span></div>
+              <div class="social-proof-line">👥 <span><span class="sp-count">89</span> travellers booked DEL → BKK via Booking.com in the last 7 days</span></div>
+            </div>
+            <div class="sp-prov-right">
+              <div class="sp-prov-price">£124</div>
+              <button class="sp-go-btn">Go to site →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expedia -->
+        <div class="sp-provider">
+          <div class="sp-prov-row">
+            <div>
+              <div class="sp-prov-top">
+                <span class="sp-prov-name">Expedia</span>
+              </div>
+              <div class="sp-prov-meta"><span class="star">★</span> <span class="rating-num">4.6</span>/5 · 10,208 reviews</div>
+              <div class="sp-features"><span>✓ 24/7 support</span><span>✓ Change booking</span></div>
+              <div class="social-proof-line">👥 <span><span class="sp-count">54</span> travellers booked DEL → BKK via Expedia in the last 7 days</span></div>
+            </div>
+            <div class="sp-prov-right">
+              <div class="sp-prov-price">£124</div>
+              <button class="sp-go-btn">Go to site →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kiwi.com -->
+        <div class="sp-provider">
+          <div class="sp-prov-row">
+            <div>
+              <div class="sp-prov-top">
+                <span class="sp-prov-name">Kiwi.com</span>
+              </div>
+              <div class="sp-prov-meta"><span class="star">★</span> <span class="rating-num">4.1</span>/5 · 10,095 reviews</div>
+              <div class="sp-features"><span>✓ 24/7 support</span></div>
+              <div class="social-proof-line">👥 <span><span class="sp-count">18</span> travellers booked DEL → BKK via Kiwi.com in the last 7 days</span></div>
+            </div>
+            <div class="sp-prov-right">
+              <div class="sp-prov-price">£125</div>
+              <button class="sp-go-btn">Go to site →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BYOjet UK — social proof suppressed -->
+        <div class="sp-provider" style="opacity:0.85;">
+          <div class="sp-prov-row">
+            <div>
+              <div class="sp-prov-top">
+                <span class="sp-prov-name">BYOjet UK</span>
+              </div>
+              <div class="sp-prov-meta"><span class="star">★</span> <span class="rating-num">3.1</span>/5 · 195 reviews</div>
+              <div class="sp-features"><span>✓ 24/7 support</span></div>
+              <!-- Social proof suppressed: <10 bookings -->
+            </div>
+            <div class="sp-prov-right">
+              <div class="sp-prov-price">£127</div>
+              <button class="sp-go-btn">Go to site →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar: Flight details -->
+      <div class="sp-side-col">
+        <div class="sp-fd">
+          <div class="sp-fd-title">Flight details</div>
+          <div style="font-size:12px; color:var(--sky-text2); margin-bottom:12px;"><strong>Outbound</strong> Tue, 15 Sep 2026</div>
+          <div class="sp-fd-card">
+            <div class="sp-fd-airline">
+              <div class="sp-fd-logo">AI</div>
+              <div><div style="font-size:12px; font-weight:600;">Air India</div><div style="font-size:11px; color:var(--sky-text2);">AI2332</div></div>
+            </div>
+            <div class="sp-fd-route">
+              <div class="sp-fd-route-line"></div>
+              <div class="sp-fd-stop"><div class="sp-fd-dot"></div><span class="sp-fd-time">11:00</span> <span class="sp-fd-airport">DEL</span></div>
+              <div style="font-size:11px; color:var(--sky-text3); padding-left:16px; margin:4px 0;">⏱ 4h 25 · Direct</div>
+              <div class="sp-fd-stop"><div class="sp-fd-dot"></div><span class="sp-fd-time">16:55</span> <span class="sp-fd-airport">BKK</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sp-annotation">
+      <h4>📐 Design Annotation — Social Proof Line</h4>
+      <p>The blue-highlighted row sits below the existing feature list on each provider card. Uses Skyscanner blue on a light background to stand out without being aggressive.</p>
+      <div class="sp-rule"><span>📏</span><div><strong>Suppression rule:</strong> If an agent has fewer than ~10 bookings on this route in 7 days, the line is hidden. For BYOjet (3.1★, 195 reviews), the missing social proof compounds with the low rating — the user draws their own conclusion.</div></div>
+      <div class="sp-rule"><span>🎯</span><div><strong>What it solves:</strong> "Am I the only one trusting this agent?" gets a concrete answer. Recency ("last 7 days") doubles as a freshness signal. Volume is harder to fake than star ratings.</div></div>
+      <div class="sp-rule"><span>✅</span><div><strong>Keep It Simple:</strong> One line of text. No new component, no tooltip, no hover state. Zero additional clicks.</div></div>
+    </div>
+
+    <div class="kis-check"><span>✅</span><div><strong>Keep It Simple</strong>One line of text per provider. No new UI components. Suppression below threshold lets absence do the talking. Sits on the existing booking options card.</div></div>
   </div>
 </div>
 
