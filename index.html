@@ -1,0 +1,840 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f1f2f8; color: #161616; }
+  
+  /* Skyscanner Design Tokens */
+  :root {
+    --sky-navy: #05203c;
+    --sky-blue: #0770e3;
+    --sky-teal: #00a698;
+    --sky-green: #0a7e07;
+    --sky-orange: #ff6d00;
+    --sky-red: #d1435b;
+    --sky-yellow: #ffc800;
+    --sky-bg: #f1f2f8;
+    --sky-card: #ffffff;
+    --sky-border: #dddde5;
+    --sky-text: #161616;
+    --sky-text2: #68697f;
+    --sky-text3: #8f90a0;
+  }
+  
+  /* Navigation */
+  .sky-tabs { display:flex; gap:6px; padding:12px 16px; background:#fff; border-bottom:1px solid var(--sky-border); position:sticky; top:0; z-index:100; flex-wrap:wrap; }
+  .sky-tab { padding:8px 16px; border-radius:20px; cursor:pointer; font-size:13px; font-weight:600; border:1px solid var(--sky-border); color:var(--sky-text2); background:#fff; transition:all 0.15s; white-space:nowrap; }
+  .sky-tab:hover { border-color:var(--sky-blue); color:var(--sky-blue); }
+  .sky-tab.active { background:var(--sky-navy); color:#fff; border-color:var(--sky-navy); }
+  .sky-tab .tab-num { display:inline-flex; width:18px; height:18px; border-radius:50%; background:rgba(255,255,255,0.2); font-size:11px; align-items:center; justify-content:center; margin-right:4px; }
+  
+  .panel { display:none; padding:16px; max-width:1100px; margin:0 auto; }
+  .panel.active { display:block; }
+  
+  /* Skyscanner Header Bar */
+  .sky-header { background:var(--sky-navy); padding:14px 20px; border-radius:12px; margin-bottom:16px; display:flex; align-items:center; gap:16px; color:#fff; }
+  .sky-header .sky-logo { font-size:16px; font-weight:700; letter-spacing:-0.3px; }
+  .sky-header .route { flex:1; text-align:center; font-size:14px; font-weight:500; opacity:0.9; }
+  .sky-header .date-nav { font-size:13px; font-weight:600; }
+  
+  /* Problem banner */
+  .problem-banner { background:#fff3f3; border:1px solid #fecaca; border-radius:10px; padding:14px 18px; margin-bottom:16px; }
+  .problem-banner .pb-tag { display:inline-block; background:var(--sky-red); color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px; }
+  .problem-banner h3 { font-size:15px; font-weight:700; color:#161616; margin-bottom:4px; }
+  .problem-banner p { font-size:13px; color:#68697f; line-height:1.5; }
+  
+  /* Solution banner */
+  .solution-banner { background:#edfcf2; border:1px solid #a7f3d0; border-radius:10px; padding:14px 18px; margin-bottom:16px; }
+  .solution-banner .sb-tag { display:inline-block; background:var(--sky-green); color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px; }
+  .solution-banner h3 { font-size:15px; font-weight:700; color:#161616; margin-bottom:4px; }
+  .solution-banner p { font-size:13px; color:#68697f; line-height:1.5; }
+  
+  /* Flight card - Skyscanner style */
+  .flight-card { background:var(--sky-card); border-radius:12px; border:1px solid var(--sky-border); margin-bottom:10px; overflow:hidden; transition: box-shadow 0.15s; }
+  .flight-card:hover { box-shadow:0 2px 12px rgba(0,0,0,0.08); }
+  .eco-bar { padding:6px 16px; font-size:11px; color:var(--sky-teal); background:#f0faf9; display:flex; align-items:center; gap:6px; }
+  .eco-bar svg { width:14px; height:14px; fill:var(--sky-teal); }
+  .flight-body { display:flex; align-items:center; padding:16px; gap:16px; }
+  .flight-logo { width:40px; height:40px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; flex-shrink:0; }
+  .logo-ai { background:#d42027; }
+  .logo-6e { background:#003876; }
+  .logo-sg { background:#f7c948; color:#333; }
+  .logo-uk { background:#8b1a4a; }
+  .flight-times { flex:1; }
+  .flight-times .times { display:flex; align-items:center; gap:8px; font-size:20px; font-weight:700; color:var(--sky-text); }
+  .flight-times .times .duration { font-size:12px; font-weight:400; color:var(--sky-text3); display:flex; flex-direction:column; align-items:center; }
+  .flight-times .times .duration .dur-line { width:60px; height:1px; background:var(--sky-border); margin:2px 0; position:relative; }
+  .flight-times .times .duration .dur-line::after { content:'→'; position:absolute; right:-4px; top:-8px; font-size:12px; color:var(--sky-text3); }
+  .flight-times .codes { display:flex; gap:70px; font-size:12px; color:var(--sky-text3); margin-top:2px; }
+  .direct-badge { display:inline-block; font-size:11px; font-weight:600; color:var(--sky-teal); margin-top:2px; }
+  .flight-price { text-align:right; min-width:120px; }
+  .flight-price .deals { font-size:11px; color:var(--sky-text3); }
+  .flight-price .amount { font-size:22px; font-weight:800; color:var(--sky-text); }
+  .flight-price .heart { width:24px; height:24px; cursor:pointer; float:right; margin-bottom:4px; }
+  .select-btn { display:flex; align-items:center; justify-content:center; gap:6px; background:var(--sky-navy); color:#fff; border:none; border-radius:8px; padding:10px 20px; font-size:14px; font-weight:600; cursor:pointer; width:100%; margin-top:8px; }
+  .select-btn:hover { background:#0a2e52; }
+  
+  /* Agent trust additions */
+  .agent-trust { display:flex; align-items:center; gap:8px; min-width:200px; justify-content:flex-end; }
+  .trust-badge { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:5px; }
+  .badge-recommended { background:#edfcf2; color:var(--sky-green); }
+  .badge-caution { background:#fff7ed; color:#c2410c; }
+  .badge-warning { background:#fef2f2; color:var(--sky-red); }
+  .badge-airline-direct { background:#eff6ff; color:var(--sky-blue); }
+  .agent-meta { text-align:right; }
+  .agent-name-line { font-size:13px; font-weight:600; color:var(--sky-text); }
+  .agent-stats { font-size:11px; color:var(--sky-text3); display:flex; align-items:center; gap:4px; justify-content:flex-end; }
+  .agent-stats .star { color:var(--sky-orange); }
+  .price-match-bar { width:50px; height:4px; border-radius:2px; background:#e5e7eb; display:inline-block; vertical-align:middle; }
+  .pm-fill { height:100%; border-radius:2px; }
+  .pm-high { background:var(--sky-green); }
+  .pm-med { background:var(--sky-yellow); }
+  .pm-low { background:var(--sky-red); }
+  
+  /* Baggage toggle */
+  .bag-toggle-bar { background:#fff; border:1px solid var(--sky-border); border-radius:10px; padding:12px 18px; margin-bottom:12px; display:flex; align-items:center; gap:12px; }
+  .sky-toggle { width:40px; height:22px; border-radius:11px; background:#c2c4cf; position:relative; cursor:pointer; transition:background 0.2s; flex-shrink:0; }
+  .sky-toggle.on { background:var(--sky-blue); }
+  .sky-toggle .sky-knob { width:18px; height:18px; border-radius:50%; background:#fff; position:absolute; top:2px; left:2px; transition:left 0.2s; box-shadow:0 1px 3px rgba(0,0,0,0.15); }
+  .sky-toggle.on .sky-knob { left:20px; }
+  .bag-toggle-label { font-size:13px; font-weight:600; color:var(--sky-text); }
+  .bag-toggle-sub { font-size:11px; color:var(--sky-text3); }
+  .rank-change-pill { display:inline-flex; align-items:center; gap:3px; background:#fef2f2; color:var(--sky-red); font-size:10px; font-weight:600; padding:2px 8px; border-radius:10px; margin-left:8px; }
+  .rank-up-pill { background:#edfcf2; color:var(--sky-green); }
+  .price-detail { font-size:11px; color:var(--sky-text3); }
+  .price-detail .strike { text-decoration:line-through; }
+  .price-detail .bag-fee { color:var(--sky-orange); font-weight:500; }
+  
+  /* Freshness & Report */
+  .freshness-badge { display:inline-flex; align-items:center; gap:4px; font-size:11px; margin-top:4px; }
+  .fresh-dot { width:6px; height:6px; border-radius:50%; }
+  .fb-fresh { color:var(--sky-green); }
+  .fb-fresh .fresh-dot { background:var(--sky-green); }
+  .fb-stale { color:var(--sky-orange); }
+  .fb-stale .fresh-dot { background:var(--sky-orange); }
+  .fb-dead { color:var(--sky-red); }
+  .fb-dead .fresh-dot { background:var(--sky-red); }
+  .report-link { display:inline-flex; align-items:center; gap:4px; font-size:11px; color:var(--sky-text3); cursor:pointer; padding:4px 8px; border-radius:6px; border:1px solid transparent; transition:all 0.15s; }
+  .report-link:hover { color:var(--sky-red); background:#fef2f2; border-color:#fecaca; }
+  .stale-overlay { opacity:0.45; position:relative; }
+  .stale-overlay::after { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(209,67,91,0.03) 10px, rgba(209,67,91,0.03) 20px); }
+  .stale-warning { background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:8px 14px; margin:0 16px 12px; font-size:12px; color:var(--sky-red); display:flex; align-items:center; gap:6px; }
+  
+  /* Sort tabs - Skyscanner */
+  .sort-tabs { display:flex; border:1px solid var(--sky-border); border-radius:10px; overflow:hidden; margin-bottom:12px; }
+  .sort-tab { flex:1; padding:10px 14px; text-align:left; cursor:pointer; background:#fff; border-right:1px solid var(--sky-border); font-size:12px; }
+  .sort-tab:last-child { border-right:none; }
+  .sort-tab.active { background:var(--sky-navy); color:#fff; }
+  .sort-tab .st-label { font-weight:600; font-size:13px; }
+  .sort-tab .st-price { font-size:16px; font-weight:800; }
+  .sort-tab .st-sub { font-size:11px; opacity:0.7; }
+  
+  /* Alert inline */
+  .alert-inline-sky { background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:14px 18px; margin-bottom:12px; }
+  .alert-inline-sky .alert-row { display:flex; align-items:center; gap:10px; }
+  .alert-inline-sky .bell { font-size:20px; }
+  .alert-inline-sky .alert-text { flex:1; font-size:13px; font-weight:500; color:var(--sky-text); }
+  .alert-inline-sky input { border:1px solid var(--sky-border); border-radius:8px; padding:8px 12px; font-size:13px; width:220px; outline:none; }
+  .alert-inline-sky input:focus { border-color:var(--sky-blue); box-shadow:0 0 0 2px rgba(7,112,227,0.1); }
+  .alert-cta { background:var(--sky-blue); color:#fff; border:none; border-radius:8px; padding:8px 18px; font-size:13px; font-weight:600; cursor:pointer; }
+  .alert-cta:hover { background:#0560c2; }
+  .alert-sub { font-size:11px; color:var(--sky-text3); margin-top:6px; }
+  .alert-toast { background:var(--sky-green); color:#fff; border-radius:10px; padding:12px 18px; margin-bottom:12px; display:flex; align-items:center; gap:10px; font-size:13px; font-weight:500; }
+  
+  /* Notification controls */
+  .notif-card { background:#fff; border:1px solid var(--sky-border); border-radius:10px; overflow:hidden; margin-bottom:12px; }
+  .notif-header { padding:14px 18px; font-size:14px; font-weight:700; border-bottom:1px solid var(--sky-border); }
+  .notif-row { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid #f3f4f6; }
+  .notif-row:last-child { border-bottom:none; }
+  .notif-label { font-size:13px; font-weight:500; color:var(--sky-text); }
+  .notif-desc { font-size:11px; color:var(--sky-text3); margin-top:2px; }
+  
+  /* Before/After */
+  .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+  .ba-col { border:1px solid var(--sky-border); border-radius:12px; overflow:hidden; background:#fff; }
+  .ba-header { padding:8px 14px; font-size:12px; font-weight:700; text-align:center; text-transform:uppercase; letter-spacing:0.5px; }
+  .ba-before .ba-header { background:#fef2f2; color:var(--sky-red); }
+  .ba-after .ba-header { background:#edfcf2; color:var(--sky-green); }
+  
+  /* Value card - booking capture */
+  .value-card-sky { background:linear-gradient(135deg, #eff6ff 0%, #edfcf2 100%); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin-bottom:12px; }
+  .value-card-sky h4 { font-size:15px; font-weight:700; color:var(--sky-text); margin-bottom:12px; }
+  .price-compare { display:flex; gap:16px; margin-bottom:16px; }
+  .price-compare > div { flex:1; text-align:center; background:#fff; border-radius:10px; padding:14px; }
+  .price-compare .pc-label { font-size:11px; color:var(--sky-text3); }
+  .price-compare .pc-price { font-size:24px; font-weight:800; margin-top:4px; }
+  .pc-winner .pc-price { color:var(--sky-green); }
+  .pc-loser .pc-price { color:var(--sky-text3); }
+  .value-item-sky { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--sky-text); padding:5px 0; }
+  .value-item-sky .vi-check { color:var(--sky-green); font-weight:700; font-size:16px; }
+  
+  /* Trip companion */
+  .trip-header-sky { background:var(--sky-navy); border-radius:12px; padding:20px; color:#fff; margin-bottom:12px; }
+  .trip-header-sky h2 { font-size:20px; font-weight:800; }
+  .trip-header-sky .trip-sub { font-size:13px; opacity:0.8; margin-top:4px; }
+  .trip-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px; }
+  .trip-stat-sky { background:rgba(255,255,255,0.1); border-radius:8px; padding:12px; text-align:center; }
+  .trip-stat-sky .ts-val { font-size:22px; font-weight:800; }
+  .trip-stat-sky .ts-label { font-size:11px; opacity:0.7; margin-top:2px; }
+  .trip-card-sky { background:#fff; border:1px solid var(--sky-border); border-radius:10px; padding:16px; margin-bottom:10px; }
+  .trip-card-sky h4 { font-size:14px; font-weight:600; margin-bottom:4px; }
+  .trip-card-sky p { font-size:13px; color:var(--sky-text2); line-height:1.5; }
+  .trip-card-btn { display:inline-flex; align-items:center; gap:6px; background:var(--sky-blue); color:#fff; border:none; border-radius:8px; padding:8px 16px; font-size:13px; font-weight:600; cursor:pointer; margin-top:8px; }
+  
+  /* Push notification mock */
+  .push-mock { max-width:380px; margin:0 auto 12px; background:#fff; border:1px solid var(--sky-border); border-radius:16px; padding:14px; box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+  .push-top { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .push-icon { width:32px; height:32px; background:var(--sky-blue); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:16px; }
+  .push-app { font-size:12px; font-weight:600; color:var(--sky-text); }
+  .push-time { font-size:11px; color:var(--sky-text3); margin-left:auto; }
+  .push-body h4 { font-size:14px; font-weight:600; margin-bottom:2px; }
+  .push-body p { font-size:13px; color:var(--sky-text2); }
+  .push-footer { font-size:11px; color:var(--sky-text3); margin-top:8px; font-style:italic; }
+  
+  /* Report sheet */
+  .report-sheet { max-width:360px; margin:0 auto 12px; background:#fff; border:1px solid var(--sky-border); border-radius:16px 16px 0 0; padding:20px; box-shadow:0 -4px 20px rgba(0,0,0,0.08); }
+  .report-sheet h4 { font-size:15px; font-weight:700; margin-bottom:14px; }
+  .report-option { border:1px solid var(--sky-border); border-radius:10px; padding:12px 14px; margin-bottom:8px; cursor:pointer; font-size:13px; font-weight:500; display:flex; align-items:center; gap:10px; transition:all 0.15s; }
+  .report-option:hover { border-color:var(--sky-blue); background:#f8fafc; }
+  .report-option .ro-icon { font-size:18px; }
+  .report-footnote { text-align:center; font-size:11px; color:var(--sky-text3); margin-top:12px; }
+  
+  /* KIS check */
+  .kis-check { background:#edfcf2; border:1px solid #a7f3d0; border-radius:10px; padding:12px 18px; margin-top:16px; display:flex; align-items:flex-start; gap:10px; font-size:13px; color:#166534; line-height:1.5; }
+  .kis-check strong { display:block; font-size:12px; font-weight:700; margin-bottom:2px; }
+
+  /* Login wall mock */
+  .login-wall { text-align:center; padding:30px 20px; }
+  .login-wall .lw-icon { font-size:48px; margin-bottom:10px; }
+  .login-wall h4 { font-size:16px; font-weight:700; margin-bottom:6px; }
+  .login-wall p { font-size:13px; color:var(--sky-text2); margin-bottom:16px; }
+  .login-wall .lw-btn { background:var(--sky-blue); color:#fff; border:none; border-radius:8px; padding:12px 28px; font-size:14px; font-weight:600; cursor:pointer; }
+  .login-wall .lw-sub { font-size:12px; color:var(--sky-text3); margin-top:10px; }
+  .login-wall .abandon-stat { font-size:12px; color:var(--sky-red); font-weight:600; margin-top:14px; }
+  
+  /* Effort/Impact tags */
+  .meta-tags { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+  .meta-tag { font-size:10px; font-weight:600; padding:3px 8px; border-radius:4px; }
+  .mt-low { background:#edfcf2; color:var(--sky-green); }
+  .mt-med { background:#fff7ed; color:#c2410c; }
+  .mt-high { background:#fef2f2; color:var(--sky-red); }
+  .mt-impact { background:#eff6ff; color:var(--sky-blue); }
+</style>
+
+<div>
+  <div class="sky-tabs" id="tabs">
+    <div class="sky-tab active" data-p="p1"><span class="tab-num">1</span> Agent Trust</div>
+    <div class="sky-tab" data-p="p2"><span class="tab-num">2</span> Bag Pricing</div>
+    <div class="sky-tab" data-p="p3"><span class="tab-num">3</span> Stale Fares</div>
+    <div class="sky-tab" data-p="p4"><span class="tab-num">4</span> Book Capture</div>
+    <div class="sky-tab" data-p="p5"><span class="tab-num">5</span> Return Loop</div>
+    <div class="sky-tab" data-p="p6"><span class="tab-num">6</span> Price Alerts</div>
+  </div>
+
+  <!-- ========== P1: AGENT TRUST ========== -->
+  <div class="panel active" id="p1">
+    <div class="sky-header">
+      <div class="sky-logo">✈ Skyscanner</div>
+      <div class="route">New Delhi (DEL) – Bangkok (BKK) · 1 adult, Economy</div>
+      <div class="date-nav">‹ Tue, 15 Sep ›</div>
+    </div>
+
+    <div class="problem-banner">
+      <div class="pb-tag">Problem</div>
+      <h3>Users see unfamiliar agent names and have no way to assess reliability</h3>
+      <p>Play Store reviews cite agents that changed prices post-click, had no customer support, or refused refunds. Reddit users describe booking only with airlines they recognize.</p>
+    </div>
+
+    <div class="solution-banner">
+      <div class="sb-tag">Solution</div>
+      <h3>Trust Score + Price Match Rate on every booking option</h3>
+      <p>Surface a composite trust signal — star rating, review count, and price-match accuracy — directly on the fare row. Flag low-trust agents with warnings. Always show the airline direct option as a trust anchor.</p>
+      <div class="meta-tags">
+        <span class="meta-tag mt-med">Medium effort</span>
+        <span class="meta-tag mt-impact">High impact — addresses #1 complaint</span>
+      </div>
+    </div>
+
+    <div class="sort-tabs">
+      <div class="sort-tab active"><div class="st-label">Best</div><div class="st-price">£123</div><div class="st-sub">4h 25</div></div>
+      <div class="sort-tab"><div class="st-label">Cheapest</div><div class="st-price">£90</div><div class="st-sub">10h 10</div></div>
+      <div class="sort-tab"><div class="st-label">Fastest</div><div class="st-price">£123</div><div class="st-sub">4h 20</div></div>
+      <div class="sort-tab"><div class="st-label">Sort ▾</div></div>
+    </div>
+
+    <!-- Card 1: Airline Direct (trust anchor) -->
+    <div class="flight-card" style="border-left:3px solid var(--sky-blue);">
+      <div class="eco-bar">🌿 This flight emits 19% less CO₂ than a typical flight on this route</div>
+      <div class="flight-body">
+        <div class="flight-logo logo-ai">AI</div>
+        <div class="flight-times">
+          <div class="times">
+            11:00
+            <div class="duration"><span>4h 25</span><div class="dur-line"></div></div>
+            16:55
+          </div>
+          <div class="codes"><span>DEL</span><span>BKK</span></div>
+          <div class="direct-badge">Direct</div>
+        </div>
+        <div class="agent-trust">
+          <div class="agent-meta">
+            <div class="agent-name-line">Air India direct</div>
+            <span class="trust-badge badge-airline-direct">✈ Airline direct</span>
+            <div class="agent-stats" style="margin-top:4px;"><span style="color:var(--sky-green);">100% price match</span></div>
+          </div>
+        </div>
+        <div class="flight-price">
+          <div class="amount">£124</div>
+          <button class="select-btn">Go to site →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: High trust agent -->
+    <div class="flight-card">
+      <div class="eco-bar">🌿 This flight emits 19% less CO₂ than a typical flight on this route</div>
+      <div class="flight-body">
+        <div class="flight-logo logo-ai">AI</div>
+        <div class="flight-times">
+          <div class="times">
+            11:00
+            <div class="duration"><span>4h 25</span><div class="dur-line"></div></div>
+            16:55
+          </div>
+          <div class="codes"><span>DEL</span><span>BKK</span></div>
+          <div class="direct-badge">Direct</div>
+        </div>
+        <div class="agent-trust">
+          <div class="agent-meta">
+            <div class="agent-name-line">Trip.com</div>
+            <span class="trust-badge badge-recommended">✓ Recommended · 4.8★</span>
+            <div class="agent-stats" style="margin-top:4px;">
+              <span>24,493 reviews</span> · 
+              <span style="color:var(--sky-green);">97% price match</span>
+              <div class="price-match-bar"><div class="pm-fill pm-high" style="width:97%"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="flight-price">
+          <div class="amount">£123</div>
+          <button class="select-btn">Go to site →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Caution agent -->
+    <div class="flight-card">
+      <div class="flight-body">
+        <div class="flight-logo logo-ai">AI</div>
+        <div class="flight-times">
+          <div class="times">
+            11:00
+            <div class="duration"><span>4h 25</span><div class="dur-line"></div></div>
+            16:55
+          </div>
+          <div class="codes"><span>DEL</span><span>BKK</span></div>
+          <div class="direct-badge">Direct</div>
+        </div>
+        <div class="agent-trust">
+          <div class="agent-meta">
+            <div class="agent-name-line">Kiwi.com</div>
+            <span class="trust-badge badge-caution">⚠ 4.1★ · New agent</span>
+            <div class="agent-stats" style="margin-top:4px;">
+              <span>10,095 reviews</span> · 
+              <span style="color:var(--sky-orange);">88% price match</span>
+              <div class="price-match-bar"><div class="pm-fill pm-med" style="width:88%"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="flight-price">
+          <div class="amount">£125</div>
+          <button class="select-btn">Go to site →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Warning agent -->
+    <div class="flight-card" style="border-left:3px solid var(--sky-red); opacity:0.85;">
+      <div class="flight-body">
+        <div class="flight-logo logo-ai">AI</div>
+        <div class="flight-times">
+          <div class="times">
+            11:00
+            <div class="duration"><span>4h 25</span><div class="dur-line"></div></div>
+            16:55
+          </div>
+          <div class="codes"><span>DEL</span><span>BKK</span></div>
+          <div class="direct-badge">Direct</div>
+        </div>
+        <div class="agent-trust">
+          <div class="agent-meta">
+            <div class="agent-name-line">BYOjet UK</div>
+            <span class="trust-badge badge-warning">⚠ Low trust · 3.1★</span>
+            <div class="agent-stats" style="margin-top:4px;">
+              <span>195 reviews</span> · 
+              <span style="color:var(--sky-red);">72% price match</span>
+              <div class="price-match-bar"><div class="pm-fill pm-low" style="width:72%"></div></div>
+            </div>
+            <div style="font-size:10px; color:var(--sky-red); margin-top:2px;">Frequent price changes at checkout</div>
+          </div>
+        </div>
+        <div class="flight-price">
+          <div class="amount" style="text-decoration:line-through; color:var(--sky-red);">£121</div>
+          <button class="select-btn" style="background:var(--sky-text3);">Go to site →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="kis-check"><span>✅</span><div><strong>Keep It Simple</strong>No new screens. Trust badge + price-match % sit on the existing booking options card. One glance tells the user whether to trust the price.</div></div>
+  </div>
+
+  <!-- ========== P2: BAG PRICING ========== -->
+  <div class="panel" id="p2">
+    <div class="sky-header">
+      <div class="sky-logo">✈ Skyscanner</div>
+      <div class="route">New Delhi (DEL) – Bangkok (BKK) · 1 adult, Economy</div>
+      <div class="date-nav">‹ Tue, 15 Sep ›</div>
+    </div>
+
+    <div class="problem-banner">
+      <div class="pb-tag">Problem</div>
+      <h3>"Cheapest" misleads when budget carriers exclude bags</h3>
+      <p>A budget carrier ranks #1 even when it costs more with a 20kg bag. Sophisticated users learned not to trust the number — they verify on airline sites.</p>
+    </div>
+
+    <div class="solution-banner">
+      <div class="sb-tag">Solution</div>
+      <h3>"Include Checked Bag" toggle re-ranks results by total cost</h3>
+      <p>One toggle. No bag-weight selector. 20kg covers the 80% case. Rankings update live — budget carriers that look cheap slide down when bag fees surface.</p>
+      <div class="meta-tags">
+        <span class="meta-tag mt-med">Medium effort</span>
+        <span class="meta-tag mt-impact">Critical — fixes root of "price discovery only" behavior</span>
+      </div>
+    </div>
+
+    <div class="bag-toggle-bar">
+      <div class="sky-toggle on" id="bagToggle2"><div class="sky-knob"></div></div>
+      <div>
+        <div class="bag-toggle-label">Include 20 kg checked bag</div>
+        <div class="bag-toggle-sub">Re-ranks results by total fare including standard bag fee</div>
+      </div>
+      <div style="margin-left:auto; font-size:12px; color:var(--sky-green); font-weight:600;">Rankings updated ↕</div>
+    </div>
+
+    <div class="sort-tabs">
+      <div class="sort-tab"><div class="st-label">Best</div><div class="st-price">£123</div></div>
+      <div class="sort-tab active"><div class="st-label">Cheapest (with bag)</div><div class="st-price">£111</div></div>
+      <div class="sort-tab"><div class="st-label">Fastest</div><div class="st-price">£123</div></div>
+      <div class="sort-tab"><div class="st-label">Sort ▾</div></div>
+    </div>
+
+    <!-- Reranked card 1: Full-service rises -->
+    <div class="flight-card" style="border-left:3px solid var(--sky-green);">
+      <div class="flight-body">
+        <div class="flight-logo logo-ai">AI</div>
+        <div class="flight-times">
+          <div class="times">
+            11:00
+            <div class="duration"><span>4h 25</span><div class="dur-line"></div></div>
+            16:55
+          </div>
+          <div class="codes"><span>DEL</span><span>BKK</span></div>
+          <div class="direct-badge">Direct</div>
+        </div>
+        <div class="flight-price" style="min-width:160px;">
+          <span class="rank-up-pill">↑ Was #3</span>
+          <div class="amount">£123</div>
+          <div class="price-detail">20kg bag included</div>
+          <button class="select-btn">Select →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reranked card 2: IndiGo - still decent -->
+    <div class="flight-card">
+      <div class="flight-body">
+        <div class="flight-logo logo-6e">6E</div>
+        <div class="flight-times">
+          <div class="times">
+            15:45
+            <div class="duration"><span>4h 30</span><div class="dur-line"></div></div>
+            21:45
+          </div>
+          <div class="codes"><span>DEL</span><span>BKK</span></div>
+          <div class="direct-badge">Direct</div>
+        </div>
+        <div class="flight-price" style="min-width:160px;">
+          <div class="amount">£136</div>
+          <div class="price-detail"><span class="strike">£111</span> <span class="bag-fee">+ £25 bag</span></div>
+          <button class="select-btn">Select →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reranked card 3: Budget drops -->
+    <div class="flight-card">
+      <div class="flight-body">
+        <div class="flight-logo logo-sg" style="background:#ef4444; color:#fff;">SG</div>
+        <div class="flight-times">
+          <div class="times">
+            06:30
+            <div class="duration"><span>9h 40</span><div class="dur-line"></div></div>
+            17:40
+          </div>
+          <div class="codes"><span>DEL</span><span>BKK</span></div>
+          <div style="font-size:11px; color:var(--sky-text3);">1 stop · KUL</div>
+        </div>
+        <div class="flight-price" style="min-width:160px;">
+          <span class="rank-change-pill">↓ Was #1</span>
+          <div class="amount">£138</div>
+          <div class="price-detail"><span class="strike">£90</span> <span class="bag-fee">+ £48 bag</span></div>
+          <button class="select-btn">Select →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="kis-check"><span>✅</span><div><strong>Keep It Simple</strong>One toggle. No settings, no bag weight selector. 20kg is the most common checked bag — cover the 80% case. Power users still see the raw fare with toggle off.</div></div>
+  </div>
+
+  <!-- ========== P3: STALE FARES ========== -->
+  <div class="panel" id="p3">
+    <div class="sky-header">
+      <div class="sky-logo">✈ Skyscanner</div>
+      <div class="route">New Delhi (DEL) – Bangkok (BKK) · 1 adult, Economy</div>
+      <div class="date-nav">‹ Tue, 15 Sep ›</div>
+    </div>
+
+    <div class="problem-banner">
+      <div class="pb-tag">Problem</div>
+      <h3>Delisted fares keep appearing with no way to flag them</h3>
+      <p>Airlines confirm a fare is unavailable but it stays in Skyscanner results. No feedback loop. Users click through, get errors on partner sites, and blame Skyscanner.</p>
+    </div>
+
+    <div class="solution-banner">
+      <div class="sb-tag">Solution</div>
+      <h3>Freshness timestamps + one-tap "Report this price"</h3>
+      <p>Show when each fare was last verified. Add a tiny flag on every fare row. After N user reports, auto-suppress the fare pending re-verification. Crowdsourced quality, zero moderation overhead.</p>
+      <div class="meta-tags">
+        <span class="meta-tag mt-low">Low effort</span>
+        <span class="meta-tag mt-impact">High impact — closes trust gap</span>
+      </div>
+    </div>
+
+    <!-- Fresh fare -->
+    <div class="flight-card">
+      <div class="eco-bar">🌿 This flight emits 19% less CO₂ than a typical flight on this route</div>
+      <div class="flight-body">
+        <div class="flight-logo logo-ai">AI</div>
+        <div class="flight-times">
+          <div class="times">
+            11:00
+            <div class="duration"><span>4h 25</span><div class="dur-line"></div></div>
+            16:55
+          </div>
+          <div class="codes"><span>DEL</span><span>BKK</span></div>
+          <div class="direct-badge">Direct</div>
+          <div class="freshness-badge fb-fresh"><span class="fresh-dot"></span> Price verified 2 min ago</div>
+        </div>
+        <div class="flight-price">
+          <div class="deals">11 deals from</div>
+          <div class="amount">£123</div>
+          <button class="select-btn">Select →</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;">
+          <span class="report-link">🚩 Report</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stale fare -->
+    <div class="flight-card">
+      <div class="flight-body">
+        <div class="flight-logo logo-6e">6E</div>
+        <div class="flight-times">
+          <div class="times">
+            15:45
+            <div class="duration"><span>4h 30</span><div class="dur-line"></div></div>
+            21:45
+          </div>
+          <div class="codes"><span>DEL</span><span>BKK</span></div>
+          <div class="direct-badge">Direct</div>
+          <div class="freshness-badge fb-stale"><span class="fresh-dot"></span> Last checked 4 hours ago</div>
+        </div>
+        <div class="flight-price">
+          <div class="deals">10 deals from</div>
+          <div class="amount">£111</div>
+          <button class="select-btn">Select →</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;">
+          <span class="report-link">🚩 Report</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dead fare - suppressed -->
+    <div class="flight-card" style="opacity:0.5; border-left:3px solid var(--sky-red);">
+      <div class="stale-warning">⚠ 3 users reported this fare unavailable — under review</div>
+      <div class="flight-body">
+        <div class="flight-logo" style="background:#999;">??</div>
+        <div class="flight-times">
+          <div class="times" style="color:var(--sky-text3);">
+            14:20
+            <div class="duration"><span>6h 25</span><div class="dur-line"></div></div>
+            22:15
+          </div>
+          <div class="codes"><span>DEL</span><span>BKK</span></div>
+          <div style="font-size:11px; color:var(--sky-text3);">1 stop · KUL</div>
+          <div class="freshness-badge fb-dead"><span class="fresh-dot"></span> Not verified in 18 hours</div>
+        </div>
+        <div class="flight-price">
+          <div class="amount" style="text-decoration:line-through; color:var(--sky-red);">£90</div>
+          <button class="select-btn" style="background:var(--sky-text3);">Unavailable</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report bottom sheet -->
+    <div class="report-sheet">
+      <h4>What went wrong?</h4>
+      <div class="report-option"><span class="ro-icon">💰</span> Price was different at checkout</div>
+      <div class="report-option"><span class="ro-icon">❌</span> Fare was unavailable</div>
+      <div class="report-option"><span class="ro-icon">🔄</span> Redirected to a different flight</div>
+      <div class="report-footnote">Your report helps keep prices accurate for everyone</div>
+    </div>
+
+    <div class="kis-check"><span>✅</span><div><strong>Keep It Simple</strong>Flag icon on the existing row + 3-option bottom sheet. No forms, no text input, no account needed. System auto-suppresses after threshold, auto-reinstates after re-verification.</div></div>
+  </div>
+
+  <!-- ========== P4: BOOKING CAPTURE ========== -->
+  <div class="panel" id="p4">
+    <div class="sky-header">
+      <div class="sky-logo">✈ Skyscanner</div>
+      <div class="route">Booking — Air India AI2332 · DEL → BKK</div>
+      <div class="date-nav">15 Sep 2026</div>
+    </div>
+
+    <div class="problem-banner">
+      <div class="pb-tag">Problem</div>
+      <h3>Users discover the price on Skyscanner, then book directly with the airline</h3>
+      <p>Skyscanner enables the conversion but captures zero revenue. No tangible reason to book through the platform vs. going direct.</p>
+    </div>
+
+    <div class="solution-banner">
+      <div class="sb-tag">Solution</div>
+      <h3>Pre-handoff value card + Price Lock</h3>
+      <p>Show the explicit saving vs. airline direct, plus booking perks (free cancellation, price-drop refund). Even when transparent about a higher price, the trust builds long-term loyalty. Price Lock captures users who aren't ready to book yet.</p>
+      <div class="meta-tags">
+        <span class="meta-tag mt-med">Medium effort</span>
+        <span class="meta-tag mt-impact">Critical — addresses revenue leakage</span>
+      </div>
+    </div>
+
+    <div class="value-card-sky">
+      <h4>You're saving £1 by booking through Trip.com on Skyscanner</h4>
+      <div class="price-compare">
+        <div class="pc-winner">
+          <div class="pc-label">Via Skyscanner</div>
+          <div class="pc-price">£123</div>
+          <div style="font-size:11px; color:var(--sky-green); font-weight:600;">Best price</div>
+        </div>
+        <div class="pc-loser">
+          <div class="pc-label">Air India direct</div>
+          <div class="pc-price">£124</div>
+        </div>
+      </div>
+      <div class="value-item-sky"><span class="vi-check">✓</span> Free cancellation within 24 hours</div>
+      <div class="value-item-sky"><span class="vi-check">✓</span> Price-drop refund if fare decreases before departure</div>
+      <div class="value-item-sky"><span class="vi-check">✓</span> Trip tracked in your Skyscanner itinerary</div>
+      <div class="value-item-sky"><span class="vi-check">✓</span> 24/7 live chat and telephone support</div>
+    </div>
+
+    <div style="display:flex; gap:10px; margin-bottom:12px;">
+      <button class="select-btn" style="flex:1; padding:14px;">Continue to Trip.com — £123</button>
+      <button style="padding:14px 20px; background:#fff; color:var(--sky-text2); border:1px solid var(--sky-border); border-radius:8px; font-size:13px; cursor:pointer; white-space:nowrap;">Go to airline ↗</button>
+    </div>
+
+    <div style="text-align:center; background:#fff; border:1px solid var(--sky-border); border-radius:10px; padding:14px; font-size:13px; color:var(--sky-text);">
+      🔒 <strong>Lock this price for 48 hours</strong> — £3.99 (refunded on booking)
+      <div style="font-size:11px; color:var(--sky-text3); margin-top:4px;">Not ready? Reserve now, decide later.</div>
+    </div>
+
+    <div class="kis-check"><span>✅</span><div><strong>Keep It Simple</strong>One interstitial between "select fare" and "redirect." No extra steps — the user was already leaving. Shows a reason to stay, or builds trust for next time by being transparent.</div></div>
+  </div>
+
+  <!-- ========== P5: RETURN LOOP ========== -->
+  <div class="panel" id="p5">
+    <div class="problem-banner">
+      <div class="pb-tag">Problem</div>
+      <h3>No reason to open Skyscanner again until the next trip — months later</h3>
+      <p>Engagement is a single spike per trip. No post-booking value. No passive re-engagement.</p>
+    </div>
+
+    <div class="solution-banner">
+      <div class="sb-tag">Solution</div>
+      <h3>Trip Companion + Passive Route Watching</h3>
+      <p>Trip Companion auto-populates from the booking — weather, visa, terminal info, price-drop alerts on related routes. Passive watching silently tracks any route searched in 90 days, pings only on meaningful drops (>15%).</p>
+      <div class="meta-tags">
+        <span class="meta-tag mt-med">Medium effort</span>
+        <span class="meta-tag mt-impact">High impact — 4-6 extra opens per booking</span>
+      </div>
+    </div>
+
+    <div class="trip-header-sky">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+        <span style="font-size:28px;">🇹🇭</span>
+        <div>
+          <h2>Bangkok Trip</h2>
+          <div class="trip-sub">DEL → BKK · Sep 15 – Sep 22 · Air India AI2332</div>
+        </div>
+      </div>
+      <div class="trip-stats">
+        <div class="trip-stat-sky"><div class="ts-val">34</div><div class="ts-label">days to go</div></div>
+        <div class="trip-stat-sky"><div class="ts-val">32°C</div><div class="ts-label">Bangkok weather</div></div>
+        <div class="trip-stat-sky"><div class="ts-val">Visa free</div><div class="ts-label">Indian passport</div></div>
+        <div class="trip-stat-sky"><div class="ts-val">T3</div><div class="ts-label">DEL terminal</div></div>
+      </div>
+    </div>
+
+    <div class="trip-card-sky" style="border-left:3px solid var(--sky-green);">
+      <h4>💰 Price dropped on your return route</h4>
+      <p>BKK → DEL on Sep 22 is now £68 (was £82 when you searched). Want to book the return?</p>
+      <button class="trip-card-btn">View return flights →</button>
+    </div>
+
+    <div class="trip-card-sky">
+      <h4>🏨 Hotels in Bangkok from £6/night</h4>
+      <p>Top-rated stays near Sukhumvit for your dates. Sep 15–22.</p>
+      <button class="trip-card-btn" style="background:var(--sky-navy);">Explore hotels</button>
+    </div>
+
+    <div class="trip-card-sky">
+      <h4>🚗 Car hire from £13/day</h4>
+      <p>Skip the crowds and explore Bangkok at your pace.</p>
+    </div>
+
+    <div style="font-size:14px; font-weight:700; margin:20px 0 10px;">Passive Route Watch — Push Notification</div>
+
+    <div class="push-mock">
+      <div class="push-top">
+        <div class="push-icon">✈</div>
+        <div class="push-app">Skyscanner</div>
+        <div class="push-time">2m ago</div>
+      </div>
+      <div class="push-body">
+        <h4>DEL → GOA dropped 18%</h4>
+        <p>Now £38 (was £46) for Oct 10–14. Tap to view.</p>
+      </div>
+      <div class="push-footer">Sent because you searched this route 3 weeks ago</div>
+    </div>
+
+    <div class="kis-check"><span>✅</span><div><strong>Keep It Simple</strong>Trip Companion auto-populates — zero setup. Passive watching runs in background with no opt-in. User does nothing new; the product just becomes more useful after booking.</div></div>
+  </div>
+
+  <!-- ========== P6: PRICE ALERTS ========== -->
+  <div class="panel" id="p6">
+    <div class="sky-header">
+      <div class="sky-logo">✈ Skyscanner</div>
+      <div class="route">New Delhi (DEL) – Bangkok (BKK) · 1 adult, Economy</div>
+      <div class="date-nav">‹ Tue, 15 Sep ›</div>
+    </div>
+
+    <div class="problem-banner">
+      <div class="pb-tag">Problem</div>
+      <h3>Price Alerts are broken at 3 separate points</h3>
+      <p><strong>6a.</strong> Hidden behind a login wall with zero value preview — 85% abandon.<br>
+      <strong>6b.</strong> Perceived as unreliable — stale prices in alerts.<br>
+      <strong>6c.</strong> Over-notifies — erodes trust in the one re-engagement channel.</p>
+    </div>
+
+    <div style="font-size:14px; font-weight:700; margin:0 0 12px;">Fix 6a: Replace Login Wall with Inline Guest Alert</div>
+
+    <div class="ba-grid">
+      <div class="ba-col ba-before">
+        <div class="ba-header">❌ Current — Login Wall</div>
+        <div class="login-wall">
+          <div class="lw-icon">🔒</div>
+          <h4>Sign in to set Price Alert</h4>
+          <p>Create an account or log in to get notified when prices change.</p>
+          <button class="lw-btn">Sign in with Google</button>
+          <div class="lw-sub">or create account with email</div>
+          <div class="abandon-stat">↑ ~85% of users abandon here</div>
+        </div>
+      </div>
+      <div class="ba-col ba-after">
+        <div class="ba-header">✅ Proposed — Inline, No Account</div>
+        <div style="padding:16px;">
+          <div class="alert-inline-sky">
+            <div class="alert-row">
+              <span class="bell">🔔</span>
+              <span class="alert-text">Get alerted when DEL → BKK drops below £90</span>
+            </div>
+            <div class="alert-row" style="margin-top:10px;">
+              <input type="email" placeholder="your@email.com">
+              <button class="alert-cta">Alert me</button>
+            </div>
+            <div class="alert-sub">Only price drops · Max 1/week · Unsubscribe anytime</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-toast">
+      ✅ Alert set! We'll email you when DEL → BKK drops below £90. Only on price drops, max 1x/week.
+    </div>
+
+    <div style="font-size:14px; font-weight:700; margin:16px 0 12px;">Fix 6b: Re-verify Before Sending</div>
+
+    <div class="solution-banner">
+      <div class="sb-tag">Backend fix</div>
+      <h3>Every alert re-checks the fare before notification send</h3>
+      <p>If the price changed → send updated price. If fare is gone → don't send. Costs API calls but saves trust. Every alert the user opens will be accurate.</p>
+      <div class="meta-tags">
+        <span class="meta-tag mt-med">Medium effort</span>
+        <span class="meta-tag mt-impact">High impact — fixes "alerts are unreliable"</span>
+      </div>
+    </div>
+
+    <div style="font-size:14px; font-weight:700; margin:16px 0 12px;">Fix 6c: Notification Preference Controls</div>
+
+    <div class="notif-card" style="max-width:420px;">
+      <div class="notif-header">Alert preferences</div>
+      <div class="notif-row">
+        <div>
+          <div class="notif-label">Only notify on price drops</div>
+          <div class="notif-desc">Skip alerts when prices stay same or rise</div>
+        </div>
+        <div class="sky-toggle on"><div class="sky-knob"></div></div>
+      </div>
+      <div class="notif-row">
+        <div>
+          <div class="notif-label">Max once per week</div>
+          <div class="notif-desc">Caps frequency to avoid overload</div>
+        </div>
+        <div class="sky-toggle on"><div class="sky-knob"></div></div>
+      </div>
+      <div class="notif-row">
+        <div>
+          <div class="notif-label">Email only (no push)</div>
+          <div class="notif-desc">Choose your preferred channel</div>
+        </div>
+        <div class="sky-toggle"><div class="sky-knob"></div></div>
+      </div>
+    </div>
+
+    <div class="kis-check"><span>✅</span><div><strong>Keep It Simple</strong>Alert setup = one field + one button. Notification controls = 3 toggles with sensible defaults. Re-verification is backend-only — user never sees it. The entire fix adds zero new screens.</div></div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.sky-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.sky-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.p).classList.add('active');
+    });
+  });
+  document.querySelectorAll('.sky-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => toggle.classList.toggle('on'));
+  });
+</script>
